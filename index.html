@@ -40,8 +40,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--deep);font-fam
 
 /* Entry anims for children */
 @keyframes aUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes aScale{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+@keyframes aLeft{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:translateX(0)}}
 .au{opacity:0}
 .slide.active .au.go{animation:aUp 0.6s cubic-bezier(.4,0,.2,1) forwards}
+.slide.active .au.go.anim-scale{animation:aScale 0.65s cubic-bezier(.4,0,.2,1) forwards}
+.slide.active .au.go.anim-left{animation:aLeft 0.6s cubic-bezier(.4,0,.2,1) forwards}
+
+/* Shimmer on accent line */
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+.al{background-size:200% auto;animation:shimmer 3s linear infinite}
+.al{background:linear-gradient(90deg,var(--accent),var(--accent-g),#ff9a5c,var(--accent));background-size:200% auto}
 
 /* === BG === */
 .sbg{position:absolute;inset:0;z-index:0}
@@ -218,6 +227,78 @@ h3{font-weight:700;font-size:clamp(14px,1.6vw,20px);letter-spacing:2px;text-tran
   .s2g{grid-template-columns:repeat(2,1fr)}
   .s1r{display:none}
 }
+
+/* ===================== INSTAGRAM-STYLE MOCKUPS ===================== */
+.ig-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,24px);flex:1;align-content:center}
+
+.ig-mock{
+  background:rgba(12,12,18,.97);
+  border-radius:14px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);
+  transition:transform .45s cubic-bezier(.4,0,.2,1),box-shadow .45s;
+  cursor:default;
+}
+.ig-mock:hover{transform:translateY(-10px) rotate(-0.8deg);box-shadow:0 40px 80px rgba(0,0,0,.8),0 0 40px rgba(232,101,43,.08)}
+
+.ig-hd{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.ig-ava-ring{width:36px;height:36px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7);flex-shrink:0}
+.ig-ava-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#E8652B,#c44);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white}
+.ig-un{font-size:12.5px;font-weight:700;color:#fff;line-height:1.2}
+.ig-loc{font-size:10px;color:var(--mute)}
+.ig-more{margin-left:auto;color:var(--dim);font-size:16px;letter-spacing:2px;line-height:1}
+
+.ig-img{width:100%;aspect-ratio:1/1;background-size:cover;background-position:center;position:relative}
+.ig-img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.35))}
+.ig-type-badge{position:absolute;top:10px;right:10px;background:rgba(232,101,43,.92);color:white;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;border-radius:5px;text-transform:uppercase;backdrop-filter:blur(4px)}
+
+.ig-acts{display:flex;justify-content:space-between;align-items:center;padding:10px 14px 6px}
+.ig-lcs{display:flex;gap:14px}
+.ig-lcs span{font-size:20px;cursor:pointer;transition:transform .2s}
+.ig-lcs span:hover{transform:scale(1.2)}
+.ig-bookmark{font-size:20px;cursor:pointer;transition:transform .2s}
+.ig-bookmark:hover{transform:scale(1.2)}
+
+.ig-likes{padding:0 14px;font-size:12px;font-weight:700;color:#fff;margin-bottom:5px}
+.ig-cap{padding:0 14px 5px;font-size:12px;color:rgba(255,255,255,.82);line-height:1.5}
+.ig-cap strong{color:#fff}
+.ig-tags{padding:0 14px 5px;font-size:11px;color:#5b9bd5;line-height:1.5}
+.ig-cmt{padding:0 14px 12px;font-size:11px;color:var(--mute)}
+
+/* Metrics strip */
+.ig-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ig-m{padding:12px 14px;border-radius:10px;background:rgba(232,101,43,.08);border:1px solid rgba(232,101,43,.15);text-align:center}
+.ig-mv{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,2.5vw,30px);line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent-g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.ig-ml{font-size:9px;color:var(--mute);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+
+/* ===================== SOCIAL SHOWCASE SLIDE ===================== */
+.soc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1.2vw,16px);flex:1;align-content:start}
+
+.sg-post{border-radius:12px;overflow:hidden;background:rgba(12,12,18,.95);border:1px solid rgba(255,255,255,.08);box-shadow:0 12px 40px rgba(0,0,0,.5);transition:transform .4s,box-shadow .4s;cursor:default}
+.sg-post:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 20px rgba(232,101,43,.08)}
+
+.sg-hd{display:flex;align-items:center;gap:8px;padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.05)}
+.sg-ava{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#c44);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0}
+.sg-un{font-size:10px;font-weight:600;color:#fff}
+.sg-time{margin-left:auto;font-size:9px;color:var(--mute)}
+
+.sg-img{width:100%;aspect-ratio:1/1;background-size:cover;background-position:center;position:relative}
+.sg-tag-abs{position:absolute;bottom:8px;left:8px;background:rgba(232,101,43,.9);color:white;font-size:8px;font-weight:700;letter-spacing:1px;padding:3px 8px;border-radius:4px;text-transform:uppercase}
+
+.sg-body{padding:9px 11px}
+.sg-cap{font-size:10.5px;color:rgba(255,255,255,.75);line-height:1.45;margin-bottom:6px}
+.sg-bar{display:flex;gap:10px;font-size:10px;color:var(--mute);padding-top:6px;border-top:1px solid rgba(255,255,255,.05)}
+
+/* Global stats bar */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,1vw,14px);margin-top:clamp(10px,1.5vh,18px)}
+.stat-item{padding:clamp(10px,1.3vw,18px);border-radius:12px;background:var(--glass);border:1px solid var(--glass-b);text-align:center;position:relative;overflow:hidden}
+.stat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-g))}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,2.8vw,38px);line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent-g));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-lbl{font-size:9px;color:var(--mute);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+
+/* Floating phone frame effect on slide 8 */
+@keyframes floatPhone{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
+.phone-float{animation:floatPhone 5s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -230,17 +311,24 @@ h3{font-weight:700;font-size:clamp(14px,1.6vw,20px);letter-spacing:2px;text-tran
 <!-- ===== SLIDE 1: TITLE ===== -->
 <div class="slide active" data-slide="0">
   <div class="sbg bg1"></div><div class="noise"></div>
-  <div class="orb oa" style="width:400px;height:400px;top:-100px;right:-50px"></div>
-  <div class="orb ob" style="width:300px;height:300px;bottom:0;left:30%"></div>
-  <div class="dr" style="width:500px;height:500px;top:10%;right:-10%"></div>
+  <div class="orb oa" style="width:500px;height:500px;top:-120px;right:-80px;opacity:.9"></div>
+  <div class="orb ob" style="width:380px;height:380px;bottom:-60px;left:25%;opacity:.7"></div>
+  <div class="orb og" style="width:250px;height:250px;top:40%;left:-80px;opacity:.5"></div>
+  <div class="dr" style="width:600px;height:600px;top:5%;right:-14%;border-color:rgba(232,101,43,.1)"></div>
+  <div class="dr" style="width:380px;height:380px;top:18%;right:2%;border-color:rgba(232,101,43,.06)"></div>
   <div class="sc">
     <div class="s1g">
       <div>
-        <div class="stag au" data-d="0">AERO PRESENTATION</div>
-        <h1 class="au" data-d="1" style="margin-top:1vh">Six<br>Thinking<br>Hats</h1>
-        <div class="al au" data-d="2"></div>
-        <p class="bt au" data-d="3" style="margin-top:1vh">A Copywriter's Framework for Creative Thinking — from brief to brilliance.</p>
-        <p class="au" data-d="4" style="font-size:clamp(12px,1.2vw,15px);color:var(--mute);margin-top:2vh;font-style:italic">By Hope Warrie</p>
+        <div class="stag au" data-d="0" style="background:linear-gradient(90deg,var(--accent),var(--accent-g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:clamp(10px,1.3vw,15px)">✦ AERO PRESENTATION ✦</div>
+        <h1 class="au" data-d="1" style="margin-top:1.2vh;text-shadow:0 0 80px rgba(232,101,43,.15)">Six<br>Thinking<br>Hats</h1>
+        <div class="al au" data-d="2" style="width:80px;height:4px;border-radius:4px"></div>
+        <p class="bt au" data-d="3" style="margin-top:1.2vh;font-size:clamp(14px,1.5vw,18px)">A Copywriter's Framework for Creative Thinking — from brief to brilliance.</p>
+        <p class="au" data-d="4" style="font-size:clamp(12px,1.2vw,15px);color:var(--mute);margin-top:2.5vh;font-style:italic;letter-spacing:1px">By Hope Warrie</p>
+        <div class="au" data-d="5" style="display:flex;gap:10px;margin-top:2.5vh;flex-wrap:wrap">
+          <span style="padding:6px 16px;border-radius:20px;border:1px solid rgba(232,101,43,.3);font-size:11px;color:var(--accent);letter-spacing:2px;text-transform:uppercase">Copywriting</span>
+          <span style="padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.1);font-size:11px;color:var(--dim);letter-spacing:2px;text-transform:uppercase">Strategy</span>
+          <span style="padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.1);font-size:11px;color:var(--dim);letter-spacing:2px;text-transform:uppercase">Social Media</span>
+        </div>
       </div>
       <div class="s1r">
         <div class="hat-ring au" data-d="2">
@@ -389,58 +477,166 @@ h3{font-weight:700;font-size:clamp(14px,1.6vw,20px);letter-spacing:2px;text-tran
   </div>
 </div>
 
-<!-- ===== SLIDE 8: RESULTS with SOCIAL MOCKUPS ===== -->
+<!-- ===== SLIDE 8: RESULTS with INSTAGRAM MOCKUPS ===== -->
 <div class="slide" data-slide="7">
-  <div class="sbg"><div class="bgi" style="background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1400&h=800&fit=crop')"></div><div class="bgo"></div></div><div class="noise"></div>
+  <div class="sbg"><div class="bgi" style="background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1400&h=900&fit=crop')"></div><div class="bgo" style="background:linear-gradient(135deg,rgba(5,5,8,.92),rgba(5,5,8,.55) 50%,rgba(5,5,8,.82))"></div></div><div class="noise"></div>
+  <div class="orb oa" style="width:350px;height:350px;bottom:-80px;left:-60px;opacity:.6"></div>
   <div class="sc">
     <div class="snum au" data-d="0">04</div>
-    <h2 class="au" data-d="1" style="font-size:clamp(24px,3vw,40px)">Thinking to Execution</h2>
+    <h2 class="au" data-d="1" style="font-size:clamp(22px,2.8vw,38px)">Thinking to Execution</h2>
     <div class="al au" data-d="1"></div>
-    <div class="s8l" style="margin-top:1.5vh">
-      <!-- LEFT: Storytelling mockup -->
-      <div class="au" data-d="2">
-        <div class="smock">
-          <div class="smock-label">Storytelling</div>
-          <div class="smock-img" style="background-image:url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&h=450&fit=crop')"></div>
-          <div class="smock-head">
-            <div class="smock-ava">A</div>
-            <div><div class="smock-name">Aero Airlines</div><div class="smock-handle">@aaborocontractor</div></div>
+    <div class="ig-wrap" style="margin-top:1.5vh">
+
+      <!-- LEFT: Storytelling Instagram Post -->
+      <div class="au phone-float" data-d="2">
+        <div class="ig-mock">
+          <div class="ig-hd">
+            <div class="ig-ava-ring"><div class="ig-ava-inner">A</div></div>
+            <div><div class="ig-un">aeroairlines</div><div class="ig-loc">Lagos, Nigeria ✈️</div></div>
+            <div class="ig-more">···</div>
           </div>
-          <div class="smock-body">
-            <div class="smock-txt">Hi I am Zara, a Cabin Crew. Mondays are your runway. Buckle up, take off, and go for it!</div>
+          <div class="ig-img" style="background-image:url('https://images.unsplash.com/photo-1571867424488-4565932edb41?w=600&h=600&fit=crop')">
+            <div class="ig-img-overlay"></div>
+            <div class="ig-type-badge">Storytelling</div>
           </div>
-          <div class="smock-bar"><span>❤️ 42</span><span>💬 3</span><span>🔁 2</span><span>📤 1</span></div>
+          <div class="ig-acts">
+            <div class="ig-lcs"><span>🤍</span><span>💬</span><span>📤</span></div>
+            <span class="ig-bookmark">🔖</span>
+          </div>
+          <div class="ig-likes">2,847 likes</div>
+          <div class="ig-cap"><strong>aeroairlines</strong> Hi, I'm Zara, your cabin crew for today. Mondays are your runway — buckle up, take off, and go for it! ✈️</div>
+          <div class="ig-tags">#AeroAirlines #FlyWithUs #MondayMotivation</div>
+          <div class="ig-cmt">View all 42 comments · 2h ago</div>
         </div>
-        <div class="r-desc">
-          <div class="r-tag">Storytelling Approach</div>
-          <ul class="r-pts"><li>Used airline roles as storytelling devices</li><li>First-person voice for relatability</li><li>Content that feels human, not corporate</li></ul>
-        </div>
-      </div>
-      <!-- RIGHT: Destination mockup -->
-      <div class="au" data-d="3">
-        <div class="smock">
-          <div class="smock-label">Destinations</div>
-          <div class="smock-img" style="background-image:url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&h=450&fit=crop')"></div>
-          <div class="smock-head">
-            <div class="smock-ava">A</div>
-            <div><div class="smock-name">Aero Airlines</div><div class="smock-handle">@aaborocontractor</div></div>
-          </div>
-          <div class="smock-body">
-            <div class="smock-txt">Obudu reminds you to slow down and feel alive again. Won't you explore it today?</div>
-          </div>
-          <div class="smock-bar"><span>❤️ 33</span><span>💬 1</span><span>🔁 1</span><span>📤 1</span></div>
-        </div>
-        <div class="r-desc">
-          <div class="r-tag">Destination Content</div>
-          <ul class="r-pts"><li>Focused on experiences, not just cities</li><li>Wrote to spark genuine travel desire</li><li>Audiences don't just see — they want to go</li></ul>
+        <div class="ig-metrics">
+          <div class="ig-m"><div class="ig-mv">+84%</div><div class="ig-ml">Reach Growth</div></div>
+          <div class="ig-m"><div class="ig-mv">4.2%</div><div class="ig-ml">Eng. Rate</div></div>
         </div>
       </div>
+
+      <!-- RIGHT: Destination Instagram Post -->
+      <div class="au" data-d="3" style="animation-delay:.15s">
+        <div class="ig-mock">
+          <div class="ig-hd">
+            <div class="ig-ava-ring"><div class="ig-ava-inner">A</div></div>
+            <div><div class="ig-un">aeroairlines</div><div class="ig-loc">Obudu, Cross River State</div></div>
+            <div class="ig-more">···</div>
+          </div>
+          <div class="ig-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=600&fit=crop')">
+            <div class="ig-img-overlay"></div>
+            <div class="ig-type-badge">Destination</div>
+          </div>
+          <div class="ig-acts">
+            <div class="ig-lcs"><span>🤍</span><span>💬</span><span>📤</span></div>
+            <span class="ig-bookmark">🔖</span>
+          </div>
+          <div class="ig-likes">3,291 likes</div>
+          <div class="ig-cap"><strong>aeroairlines</strong> Obudu reminds you to slow down and feel alive again. Won't you explore it today? 🏔️</div>
+          <div class="ig-tags">#AeroAirlines #ObuduRanch #ExploreNigeria</div>
+          <div class="ig-cmt">View all 33 comments · 1d ago</div>
+        </div>
+        <div class="ig-metrics">
+          <div class="ig-m"><div class="ig-mv">+12k</div><div class="ig-ml">New Followers</div></div>
+          <div class="ig-m"><div class="ig-mv">97%</div><div class="ig-ml">Pos. Sentiment</div></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 9: CONCLUSION ===== -->
+<!-- ===== SLIDE 9: SOCIAL POSTS GALLERY ===== -->
 <div class="slide" data-slide="8">
+  <div class="sbg bg3"></div><div class="noise"></div>
+  <div class="orb oa" style="width:500px;height:500px;top:-180px;right:-120px;opacity:.55"></div>
+  <div class="orb ob" style="width:320px;height:320px;bottom:-80px;left:5%;opacity:.5"></div>
+  <div class="dr" style="width:600px;height:600px;top:-10%;right:-15%;border-color:rgba(232,101,43,.06)"></div>
+  <div class="sc">
+    <div class="stag au" data-d="0">OUR WORK IN ACTION</div>
+    <h2 class="au" data-d="1" style="font-size:clamp(22px,2.8vw,38px)">Social Posts — Live &amp; Engaged</h2>
+    <div class="al au" data-d="1"></div>
+
+    <div class="soc-grid" style="margin-top:2vh">
+
+      <!-- Post 1: Storytelling – Zara -->
+      <div class="sg-post au" data-d="2">
+        <div class="sg-hd">
+          <div class="sg-ava">A</div>
+          <div><div class="sg-un">aeroairlines</div></div>
+          <div class="sg-time">2h</div>
+        </div>
+        <div class="sg-img" style="background-image:url('https://images.unsplash.com/photo-1571867424488-4565932edb41?w=500&h=500&fit=crop')">
+          <div class="sg-tag-abs">Storytelling</div>
+        </div>
+        <div class="sg-body">
+          <div class="sg-cap">"Hi, I'm Zara, your cabin crew for today. Mondays are your runway — buckle up and go for it! ✈️"</div>
+          <div class="sg-bar"><span>🤍 2,847</span><span>💬 42</span><span>📤 91</span></div>
+        </div>
+      </div>
+
+      <!-- Post 2: Destination – Obudu -->
+      <div class="sg-post au" data-d="2">
+        <div class="sg-hd">
+          <div class="sg-ava">A</div>
+          <div><div class="sg-un">aeroairlines</div></div>
+          <div class="sg-time">1d</div>
+        </div>
+        <div class="sg-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=500&fit=crop')">
+          <div class="sg-tag-abs">Destination</div>
+        </div>
+        <div class="sg-body">
+          <div class="sg-cap">"Obudu reminds you to slow down and feel alive again. Won't you explore it today? 🏔️"</div>
+          <div class="sg-bar"><span>🤍 3,291</span><span>💬 33</span><span>📤 78</span></div>
+        </div>
+      </div>
+
+      <!-- Post 3: Inspirational – Flight -->
+      <div class="sg-post au" data-d="3">
+        <div class="sg-hd">
+          <div class="sg-ava">A</div>
+          <div><div class="sg-un">aeroairlines</div></div>
+          <div class="sg-time">3d</div>
+        </div>
+        <div class="sg-img" style="background-image:url('https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?w=500&h=500&fit=crop')">
+          <div class="sg-tag-abs">Inspirational</div>
+        </div>
+        <div class="sg-body">
+          <div class="sg-cap">"Every great journey begins with a single boarding pass. Where will yours take you? 🛫"</div>
+          <div class="sg-bar"><span>🤍 4,108</span><span>💬 58</span><span>📤 134</span></div>
+        </div>
+      </div>
+
+      <!-- Post 4: Brand/City – Lagos -->
+      <div class="sg-post au" data-d="3">
+        <div class="sg-hd">
+          <div class="sg-ava">A</div>
+          <div><div class="sg-un">aeroairlines</div></div>
+          <div class="sg-time">5d</div>
+        </div>
+        <div class="sg-img" style="background-image:url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=500&h=500&fit=crop')">
+          <div class="sg-tag-abs">Brand</div>
+        </div>
+        <div class="sg-body">
+          <div class="sg-cap">"Lagos from above — a city that never sleeps, and we never stop flying to it. 🌆"</div>
+          <div class="sg-bar"><span>🤍 5,612</span><span>💬 89</span><span>📤 203</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Overall Stats Bar -->
+    <div class="stats-bar au" data-d="4">
+      <div class="stat-item"><div class="stat-val">+84%</div><div class="stat-lbl">Reach Growth</div></div>
+      <div class="stat-item"><div class="stat-val">4.2%</div><div class="stat-lbl">Avg Engagement</div></div>
+      <div class="stat-item"><div class="stat-val">+12k</div><div class="stat-lbl">New Followers</div></div>
+      <div class="stat-item"><div class="stat-val">97%</div><div class="stat-lbl">Positive Sentiment</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: CONCLUSION ===== -->
+<div class="slide" data-slide="9">
   <div class="sbg bg1"></div><div class="noise"></div>
   <div class="orb oa" style="width:500px;height:500px;bottom:-200px;right:-100px"></div>
   <div class="sc">
@@ -473,19 +669,19 @@ h3{font-weight:700;font-size:clamp(14px,1.6vw,20px);letter-spacing:2px;text-tran
   </div>
 </div>
 
-<!-- ===== SLIDE 10: THANK YOU ===== -->
-<div class="slide" data-slide="9">
+<!-- ===== SLIDE 11: THANK YOU ===== -->
+<div class="slide" data-slide="10">
   <div class="sbg"><div class="bgi" style="background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&h=800&fit=crop');filter:brightness(.3) saturate(1.4)"></div><div class="bgo" style="background:radial-gradient(ellipse at center,rgba(5,5,8,.6),rgba(5,5,8,.9) 70%)"></div></div><div class="noise"></div>
   <div class="orb oa" style="width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.5"></div>
   <div class="dr" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);border-color:rgba(232,101,43,.08)"></div>
   <div class="dr" style="width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);border-color:rgba(232,101,43,.05)"></div>
   <div class="sc">
     <div class="s10c">
-      <div class="stag au" data-d="0" style="margin-bottom:3vh">AERO PRESENTATION</div>
+      <div class="stag au" data-d="0" style="margin-bottom:3vh;background:linear-gradient(90deg,var(--accent),var(--accent-g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:clamp(10px,1.3vw,15px)">✦ AERO PRESENTATION ✦</div>
       <div class="tyt au" data-d="1"><span>Thank You</span></div>
-      <div class="tys au" data-d="2">For Your Time</div>
-      <div class="al au" data-d="3" style="width:80px;margin:3vh auto"></div>
-      <div class="tyc au" data-d="4">BY HOPE WARRIE &nbsp;·&nbsp; SIX THINKING HATS</div>
+      <div class="tys au" data-d="2">For Your Time &amp; Attention</div>
+      <div class="al au" data-d="3" style="width:100px;margin:3vh auto;height:4px;border-radius:4px"></div>
+      <div class="tyc au" data-d="4" style="font-size:clamp(12px,1.2vw,15px)">BY HOPE WARRIE &nbsp;·&nbsp; SIX THINKING HATS &nbsp;·&nbsp; AERO AIRLINES</div>
       <div class="hat-parade au" data-d="5">
         <div class="hp">🤍</div>
         <div class="hp">💙</div>
@@ -493,6 +689,9 @@ h3{font-weight:700;font-size:clamp(14px,1.6vw,20px);letter-spacing:2px;text-tran
         <div class="hp">💛</div>
         <div class="hp">💚</div>
         <div class="hp">🖤</div>
+      </div>
+      <div class="au" data-d="6" style="margin-top:3vh;font-size:clamp(11px,1.1vw,14px);color:var(--mute);letter-spacing:1px;max-width:460px">
+        Every piece of content we create is powered by structured thinking, genuine empathy, and an unwavering commitment to results.
       </div>
     </div>
   </div>
@@ -504,13 +703,13 @@ h3{font-weight:700;font-size:clamp(14px,1.6vw,20px);letter-spacing:2px;text-tran
 <div class="nav">
   <button class="nb" onclick="go(-1)">←</button>
   <div id="dots" style="display:flex;gap:6px"></div>
-  <span class="sct" id="counter">01 / 10</span>
+  <span class="sct" id="counter">01 / 11</span>
   <button class="nb" onclick="go(1)">→</button>
 </div>
 <div style="position:fixed;top:2vh;right:3vw;z-index:1000;font-size:11px;color:var(--mute);letter-spacing:1px;opacity:.35">← → KEYS or SWIPE</div>
 
 <script>
-const T = 10;
+const T = 11;
 let cur = 0, animating = false;
 const slides = document.querySelectorAll('.slide');
 const dots = document.getElementById('dots');
@@ -581,7 +780,7 @@ function goTo(n){
 
   // Update dots & counter
   dots.querySelectorAll('.nd').forEach((d,i)=>d.classList.toggle('active',i===cur));
-  counter.textContent = String(cur+1).padStart(2,'0')+' / '+T;
+  counter.textContent = String(cur+1).padStart(2,'0')+' / 11';
 
   // Cleanup after transition
   setTimeout(()=>{
