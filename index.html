@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#050505] text-[#f4f4f5]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AERO | Six Thinking Hats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --aero-orange: #FF6B00;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #050505;
+        }
+        h1, h2, h3, h4, .font-syne {
+            font-family: 'Syne', sans-serif;
+        }
+        
+        /* Lenis Smooth Scroll Setup */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--aero-orange); }
+
+        /* Image Overlays for Cinematic Feel */
+        .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.2), #050505);
+            z-index: 10;
+        }
+        
+        .text-accent { color: var(--aero-orange); }
+        .border-accent { border-color: var(--aero-orange); }
+
+        /* Initial states for GSAP animations */
+        .reveal-text, .reveal-element { opacity: 0; transform: translateY(40px); }
+        .reveal-line { width: 0%; height: 1px; background-color: #333; }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#FF6B00] selection:text-white">
+
+    <section class="relative h-screen flex flex-col justify-center items-center overflow-hidden pt-20" id="hero">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2500&auto=format&fit=crop" alt="Aviation Background" class="w-full h-full object-cover opacity-30" id="hero-img" />
+            <div class="img-overlay"></div>
+        </div>
+        
+        <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+            <p class="reveal-text text-accent uppercase tracking-[0.3em] text-sm font-semibold mb-6">Aero Presentation [cite: 33]</p>
+            <h1 class="reveal-text font-syne text-6xl md:text-8xl lg:text-[10rem] font-bold leading-none tracking-tighter mb-4">
+                SIX<br>THINKING<br>HATS [cite: 1]
+            </h1>
+            <p class="reveal-text text-zinc-400 text-lg md:text-xl tracking-widest mt-8">BY HOPE WARRIE [cite: 1]</p>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 reveal-text flex flex-col items-center">
+            <span class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Scroll to explore</span>
+            <div class="w-[1px] h-12 bg-zinc-700 overflow-hidden relative">
+                <div class="w-full h-full bg-accent absolute top-0 left-0 animate-[scrolldown_1.5s_ease-in-out_infinite]"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto relative z-20" id="intro">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="reveal-text font-syne text-4xl md:text-5xl font-bold mb-8">THE AERO<br><span class="text-accent">APPROACH.</span></h2>
+                <div class="reveal-line mb-8"></div>
+                <p class="reveal-text text-xl md:text-2xl text-zinc-300 leading-relaxed mb-6">
+                    We blend strategy, creativity, and organized thinking to ensure that every idea we produce is clear, relevant, and impactful. [cite: 4]
+                </p>
+                <p class="reveal-text text-zinc-400 text-lg leading-relaxed">
+                    When a brief comes in, we don't rush to create. [cite: 6] We share ideas, challenge each other, refine, and align. [cite: 7]
+                </p>
+            </div>
+            <div class="relative h-[600px] w-full overflow-hidden rounded-sm reveal-element">
+                <img src="https://images.unsplash.com/photo-1540866225557-9e4c58100c67?q=80&w=1000&auto=format&fit=crop" alt="Abstract Strategy" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 parallax-img">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-[#0a0a0a] relative z-20 border-t border-zinc-900" id="hats">
+        <div class="px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
+            <h2 class="reveal-text font-syne text-5xl font-bold mb-20 text-center">THE METHODOLOGY</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-white transition-colors duration-500 reveal-element">
+                    <div class="text-white text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">01 // THE FACTS HAT</div>
+                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Clarity & Alignment</h3>
+                    <p class="text-zinc-400 mb-4">We start with clarity. [cite: 10] What is the client asking for? [cite: 10] Who is the audience? [cite: 10]</p>
+                    <p class="text-zinc-500 text-sm italic">This keeps us grounded and aligned from the start. [cite: 12]</p>
+                </div>
+
+                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-blue-500 transition-colors duration-500 reveal-element">
+                    <div class="text-blue-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">02 // THE PROCESS HAT</div>
+                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Defining the Goal</h3>
+                    <p class="text-zinc-400 mb-4">This is where we define the goal, by bringing everything together and ensuring the final direction was clear... [cite: 12]</p>
+                    <p class="text-zinc-500 text-sm italic">Is it to sell? inform? or build the brand? [cite: 13]</p>
+                </div>
+
+                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-red-500 transition-colors duration-500 reveal-element">
+                    <div class="text-red-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">03 // THE EMOTIONS HAT</div>
+                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Human Connection</h3>
+                    <p class="text-zinc-400 mb-4">We define how the content should feel, human, relatable, and easy to connect with. [cite: 15]</p>
+                    <p class="text-zinc-500 text-sm italic">Should this feel warm, reflective, exciting, or reassuring? [cite: 16]</p>
+                </div>
+
+                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-yellow-500 transition-colors duration-500 reveal-element">
+                    <div class="text-yellow-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">04 // THE VALUE HAT</div>
+                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Audience Meaning</h3>
+                    <p class="text-zinc-400 mb-4">Wearing this hat helps us make sure the message has meaning. [cite: 17] Why should the audience care? [cite: 18]</p>
+                    <p class="text-zinc-500 text-sm italic">What are they gaining from this? [cite: 18]</p>
+                </div>
+
+                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-zinc-500 transition-colors duration-500 reveal-element">
+                    <div class="text-zinc-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">05 // THE CRITIQUE HAT</div>
+                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Review & Filter</h3>
+                    <p class="text-zinc-400 mb-4">We step back and critique the idea. [cite: 19] Is it clear? Is it relevant? [cite: 19] Can it be misunderstood? [cite: 20]</p>
+                    <p class="text-zinc-500 text-sm italic">Removing what doesn't align or connect. [cite: 20]</p>
+                </div>
+
+                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-green-500 transition-colors duration-500 reveal-element">
+                    <div class="text-green-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">06 // THE CREATIVE HAT</div>
+                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Storytelling</h3>
+                    <p class="text-zinc-400 mb-4">We explore different directions, moving away from generic content to storytelling through airline roles. [cite: 20]</p>
+                    <p class="text-zinc-500 text-sm italic">How can we say this in a way that stands out? [cite: 21]</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto relative z-20" id="execution">
+        <h2 class="reveal-text font-syne text-4xl md:text-6xl font-bold mb-16">THINKING TO <span class="text-accent">EXECUTION</span> [cite: 23]</h2>
+        
+        <div class="space-y-32">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 order-2 lg:order-1 reveal-element">
+                    <div class="text-accent text-sm font-bold tracking-widest mb-4">CASE STUDY: ROLES</div>
+                    <h3 class="font-syne text-3xl mb-6">"Hi I am Zara, a Cabin Crew." [cite: 23]</h3>
+                    <p class="text-zinc-400 mb-6 text-lg">We moved away from generic quotes and rethought the approach. [cite: 28] Used airline roles as storytelling. Wrote in first-person for relatability. [cite: 28]</p>
+                    <blockquote class="border-l-2 border-accent pl-6 text-xl font-syne text-zinc-200">
+                        "Mondays are your runway. Buckle up, take off, and go for it!" [cite: 23, 24]
+                    </blockquote>
+                </div>
+                <div class="lg:col-span-7 order-1 lg:order-2 overflow-hidden reveal-element">
+                    <img src="https://images.unsplash.com/photo-1544158485-64bc1dfa8c5a?q=80&w=1200&auto=format&fit=crop" alt="Cabin Crew Insight" class="w-full h-[500px] object-cover filter brightness-75">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 overflow-hidden reveal-element">
+                    <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1200&auto=format&fit=crop" alt="Obudu Destination" class="w-full h-[500px] object-cover filter brightness-75">
+                </div>
+                <div class="lg:col-span-5 reveal-element">
+                    <div class="text-accent text-sm font-bold tracking-widest mb-4">CASE STUDY: DESTINATIONS</div>
+                    <h3 class="font-syne text-3xl mb-6">Experiential Desire</h3>
+                    <p class="text-zinc-400 mb-6 text-lg">Focused on destinations, not just cities. Highlighted experiences. Wrote to spark travel desire. [cite: 29]</p>
+                    <blockquote class="border-l-2 border-accent pl-6 text-xl font-syne text-zinc-200">
+                        "Obudu reminds you to slow down and feel alive again. Won't you explore it today?" [cite: 26, 27]
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-40 bg-accent text-black text-center relative z-20" id="conclusion">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="reveal-text font-syne text-5xl md:text-7xl font-bold mb-10">THE RESULT</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left reveal-element">
+                <div class="border-t-2 border-black pt-6">
+                    <h4 class="font-syne text-2xl font-bold mb-4">We Achieve:</h4>
+                    <ul class="space-y-3 font-medium text-lg">
+                        <li>↗ Clear and relatable messaging [cite: 31]</li>
+                        <li>↗ More intentional content [cite: 31]</li>
+                        <li>↗ Better engagement overall [cite: 31]</li>
+                        <li>↗ Stronger audience connection [cite: 31]</li>
+                    </ul>
+                </div>
+                <div class="border-t-2 border-black pt-6">
+                    <h4 class="font-syne text-2xl font-bold mb-4">We Ensure:</h4>
+                    <ul class="space-y-3 font-medium text-lg">
+                        <li>↗ The client's vision is respected [cite: 31]</li>
+                        <li>↗ The audience is understood [cite: 32]</li>
+                        <li>↗ The message is clear and effective [cite: 32]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-zinc-600 text-sm border-t border-zinc-900 bg-black">
+        <p>Aero Presentation. Thank you for your time. [cite: 33]</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // 1. Initialize Smooth Scrolling (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+            direction: 'vertical', 
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        })
+
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+        requestAnimationFrame(raf)
+
+        // 2. Initialize GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Update ScrollTrigger on Lenis scroll
+        lenis.on('scroll', ScrollTrigger.update)
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) })
+        gsap.ticker.lagSmoothing(0, 0)
+
+        // 3. Animations
+        
+        // Hero Parallax
+        gsap.to("#hero-img", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            } 
+        });
+
+        // Text Reveals
+        const textElements = gsap.utils.toArray('.reveal-text');
+        textElements.forEach(text => {
+            gsap.to(text, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Line Draws
+        const lines = gsap.utils.toArray('.reveal-line');
+        lines.forEach(line => {
+            gsap.to(line, {
+                width: "100%",
+                duration: 1.5,
+                ease: "power4.inOut",
+                scrollTrigger: {
+                    trigger: line,
+                    start: "top 85%",
+                }
+            });
+        });
+
+        // Elements / Images Reveals
+        const elements = gsap.utils.toArray('.reveal-element');
+        elements.forEach(el => {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%",
+                }
+            });
+        });
+
+        // Subtle Image Parallax inside containers
+        const parallaxImgs = gsap.utils.toArray('.parallax-img');
+        parallaxImgs.forEach(img => {
+            gsap.to(img, {
+                yPercent: 15,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: img.parentElement,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+    </script>
+</body>
+</html>
