@@ -1,313 +1,498 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-[#050505] text-[#f4f4f5]">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AERO | Six Thinking Hats</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --aero-orange: #FF6B00;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            background-color: #050505;
-        }
-        h1, h2, h3, h4, .font-syne {
-            font-family: 'Syne', sans-serif;
-        }
-        
-        /* Lenis Smooth Scroll Setup */
-        html.lenis { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
-        .lenis.lenis-scrolling iframe { pointer-events: none; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Thinking Hats — Aero Presentation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Instrument+Sans:wght@400;500;600;700&family=Bebas+Neue&display=swap');
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--aero-orange); }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Image Overlays for Cinematic Feel */
-        .img-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.2), #050505);
-            z-index: 10;
-        }
-        
-        .text-accent { color: var(--aero-orange); }
-        .border-accent { border-color: var(--aero-orange); }
+:root {
+  --bg-deep: #050508;
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-strong: rgba(255,255,255,0.1);
+  --accent: #E8652B;
+  --accent-glow: #FF7B3A;
+  --accent-soft: rgba(232,101,43,0.15);
+  --accent-dim: rgba(232,101,43,0.08);
+  --cream: #F5F0EB;
+  --text: #E8E4DF;
+  --text-dim: #8A8580;
+  --text-muted: #5A5550;
+}
 
-        /* Initial states for GSAP animations */
-        .reveal-text, .reveal-element { opacity: 0; transform: translateY(40px); }
-        .reveal-line { width: 0%; height: 1px; background-color: #333; }
-    </style>
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-deep); font-family: 'Instrument Sans', sans-serif; color: var(--text); }
+
+.deck { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+
+.slide {
+  position: absolute; inset: 0; display: flex;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+  transform: scale(0.96) translateY(20px);
+  overflow: hidden;
+}
+.slide.active { opacity: 1; pointer-events: all; transform: scale(1) translateY(0); }
+
+.slide-bg { position: absolute; inset: 0; z-index: 0; }
+
+.bg-g1 {
+  background: radial-gradient(ellipse 80% 60% at 20% 80%, rgba(232,101,43,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(59,125,216,0.08) 0%, transparent 50%),
+    linear-gradient(160deg, #080810 0%, #0c0c18 50%, #0a0a14 100%);
+}
+.bg-g2 {
+  background: radial-gradient(ellipse 70% 50% at 70% 70%, rgba(232,101,43,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 30%, rgba(46,189,110,0.06) 0%, transparent 50%),
+    linear-gradient(170deg, #06060c 0%, #0c0c16 100%);
+}
+.bg-g3 {
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(232,101,43,0.08) 0%, transparent 50%),
+    linear-gradient(180deg, #08080e 0%, #0e0e18 100%);
+}
+
+.bg-img-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(135deg, rgba(5,5,8,0.88) 0%, rgba(5,5,8,0.5) 50%, rgba(5,5,8,0.3) 100%);
+}
+.bg-img {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center;
+  filter: brightness(0.6) saturate(1.2);
+}
+
+.noise {
+  position: absolute; inset: 0; opacity: 0.03; z-index: 2; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+.glass-card {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 20px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  position: relative; overflow: hidden;
+}
+.glass-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+}
+
+.glow-accent { box-shadow: 0 0 60px rgba(232,101,43,0.15), 0 0 120px rgba(232,101,43,0.05); }
+
+.orb { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; z-index: 0; }
+.orb-a { background: rgba(232,101,43,0.2); }
+.orb-b { background: rgba(59,125,216,0.12); }
+.orb-g { background: rgba(46,189,110,0.1); }
+
+.deco-ring { position: absolute; border: 1px solid rgba(232,101,43,0.1); border-radius: 50%; pointer-events: none; z-index: 1; }
+
+@keyframes floatSlow { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(1deg)} }
+@keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+.slide-content { position: relative; z-index: 10; width: 100%; height: 100%; padding: 3.5vh 4vw; display: flex; flex-direction: column; }
+
+.stag { font-family: 'Instrument Sans', sans-serif; font-size: clamp(10px,1.2vw,14px); font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8vh; }
+.snum { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,6vw,80px); color: var(--accent); line-height: 0.9; opacity: 0.7; }
+h1 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(36px,5.5vw,72px); line-height: 1.05; color: var(--cream); letter-spacing: -1px; }
+h2 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(28px,3.8vw,52px); line-height: 1.1; color: var(--cream); }
+h3 { font-family: 'Instrument Sans', sans-serif; font-weight: 700; font-size: clamp(14px,1.6vw,20px); letter-spacing: 2px; text-transform: uppercase; }
+.btxt { font-size: clamp(13px,1.4vw,17px); line-height: 1.65; color: var(--text-dim); max-width: 540px; }
+.aline { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-glow)); border-radius: 2px; margin: 1.5vh 0; }
+
+/* SLIDE ANIMATIONS */
+.slide.active .au { animation: slideUp 0.7s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+.au { opacity: 0; }
+.d1{animation-delay:0.1s!important} .d2{animation-delay:0.2s!important} .d3{animation-delay:0.3s!important}
+.d4{animation-delay:0.4s!important} .d5{animation-delay:0.5s!important} .d6{animation-delay:0.6s!important}
+
+/* ---- SLIDE 1: TITLE ---- */
+.s1-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; height: 100%; gap: 4vw; }
+.s1-right { position: relative; height: 80%; display: flex; align-items: center; justify-content: center; }
+.hero-stack { position: relative; width: 100%; height: 100%; }
+.hi1 {
+  position: absolute; width: 65%; height: 70%; top: 5%; right: 5%; border-radius: 20px; overflow: hidden; z-index: 3;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5); animation: floatSlow 8s ease-in-out infinite;
+}
+.hi2 {
+  position: absolute; width: 45%; height: 50%; bottom: 5%; left: 0; border-radius: 16px; overflow: hidden; z-index: 2;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: float2 7s ease-in-out infinite; animation-delay: -3s;
+}
+.hi1 img, .hi2 img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-badge {
+  position: absolute; bottom: 20%; right: 0; z-index: 5; padding: 12px 22px;
+  animation: float2 5s ease-in-out infinite; animation-delay: -1s;
+}
+.hi-over { position: absolute; inset: 0; }
+
+/* ---- SLIDE 2: CONTENTS ---- */
+.s2-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(12px,1.5vw,20px); flex: 1; align-content: center; }
+.ci { padding: clamp(16px,2vw,28px); transition: all 0.4s; cursor: default; }
+.ci:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); }
+.cn { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,4vw,56px); background: linear-gradient(135deg, var(--accent), var(--accent-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+.ct { font-family: 'Playfair Display', serif; font-size: clamp(16px,1.8vw,22px); font-weight: 700; color: var(--cream); margin: 8px 0 6px; }
+.cd { font-size: clamp(11px,1.1vw,13px); color: var(--text-muted); line-height: 1.5; }
+
+/* ---- SLIDE 3: INTRO ---- */
+.s3-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4vw; height: 100%; align-items: center; }
+.pstack { display: flex; flex-direction: column; gap: clamp(10px,1.2vw,16px); }
+.pi { display: flex; align-items: center; gap: clamp(12px,1.5vw,20px); padding: clamp(14px,1.8vw,24px); transition: all 0.4s; }
+.pi:hover { background: rgba(255,255,255,0.06); transform: translateX(8px); }
+.picon { width: clamp(40px,4.5vw,52px); height: clamp(40px,4.5vw,52px); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: clamp(18px,2vw,24px); flex-shrink: 0; }
+.plbl { font-weight: 600; font-size: clamp(13px,1.4vw,17px); letter-spacing: 3px; text-transform: uppercase; color: var(--cream); }
+.psub { font-size: clamp(11px,1vw,13px); color: var(--text-muted); margin-top: 2px; }
+
+/* ---- SLIDE 4: PROCESS ---- */
+.s4-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(12px,1.5vw,20px); flex: 1; align-content: center; }
+.pc { padding: clamp(20px,2.5vw,32px); position: relative; transition: all 0.5s; }
+.pc:hover { transform: translateY(-8px); background: rgba(255,255,255,0.08); box-shadow: 0 20px 60px rgba(232,101,43,0.1); }
+.pcn { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,5vw,72px); color: var(--accent); opacity: 0.15; position: absolute; top: 10px; right: 16px; line-height: 1; }
+.pci { font-size: clamp(28px,3vw,36px); margin-bottom: 16px; }
+.pct { font-weight: 700; font-size: clamp(13px,1.3vw,16px); letter-spacing: 2px; text-transform: uppercase; color: var(--cream); margin-bottom: 10px; }
+.pcd { font-size: clamp(12px,1.1vw,14px); color: var(--text-dim); line-height: 1.6; }
+
+/* ---- HAT SLIDES ---- */
+.hl { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px,2vw,28px); flex: 1; align-content: center; }
+.hc { padding: clamp(24px,3vw,40px); position: relative; overflow: hidden; }
+.hc::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 20px 20px 0 0; }
+.hh { display: flex; align-items: center; gap: clamp(12px,1.5vw,18px); margin-bottom: clamp(16px,2vw,24px); }
+.hb { width: clamp(44px,5vw,56px); height: clamp(44px,5vw,56px); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: clamp(20px,2.5vw,28px); }
+.htg h3 { color: var(--cream); font-size: clamp(14px,1.5vw,18px); }
+.hst { font-size: clamp(11px,1vw,13px); font-style: italic; margin-top: 3px; }
+.hbd { font-size: clamp(13px,1.2vw,15px); color: var(--text-dim); line-height: 1.7; }
+.hbd strong { color: var(--cream); font-weight: 600; }
+.q { display: block; margin: 4px 0; padding-left: 16px; position: relative; }
+.q::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 12px; }
+
+.hw .hb{background:rgba(240,237,232,0.15)} .hw .hc::after{background:linear-gradient(90deg,#F0EDE8,rgba(240,237,232,0.3))} .hw .hst{color:#F0EDE8}
+.hbl .hb{background:rgba(59,125,216,0.15)} .hbl .hc::after{background:linear-gradient(90deg,#3B7DD8,rgba(59,125,216,0.3))} .hbl .hst{color:#3B7DD8}
+.hr .hb{background:rgba(224,64,64,0.15)} .hr .hc::after{background:linear-gradient(90deg,#E04040,rgba(224,64,64,0.3))} .hr .hst{color:#E04040}
+.hy .hb{background:rgba(240,192,48,0.15)} .hy .hc::after{background:linear-gradient(90deg,#F0C030,rgba(240,192,48,0.3))} .hy .hst{color:#F0C030}
+.hgr .hb{background:rgba(46,189,110,0.15)} .hgr .hc::after{background:linear-gradient(90deg,#2EBD6E,rgba(46,189,110,0.3))} .hgr .hst{color:#2EBD6E}
+.hbk .hb{background:rgba(58,58,74,0.3)} .hbk .hc::after{background:linear-gradient(90deg,#3A3A4A,rgba(58,58,74,0.3))} .hbk .hst{color:var(--text-dim)}
+
+/* ---- SLIDE 8: RESULTS ---- */
+.s8l { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px,2vw,28px); flex: 1; align-content: center; }
+.rc { padding: clamp(28px,3vw,40px); position: relative; }
+.rc::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--accent), transparent); }
+.ri { font-size: clamp(32px,3.5vw,44px); margin-bottom: 16px; }
+.rtag { font-weight: 600; font-size: clamp(11px,1.1vw,13px); letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.rtxt { font-size: clamp(14px,1.3vw,16px); color: var(--cream); line-height: 1.6; margin-bottom: 16px; }
+.rl { list-style: none; }
+.rl li { font-size: clamp(12px,1.1vw,14px); color: var(--text-dim); padding: 6px 0 6px 20px; position: relative; }
+.rl li::before { content: ''; position: absolute; left: 0; top: 50%; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); transform: translateY(-50%); box-shadow: 0 0 8px rgba(232,101,43,0.4); }
+
+/* ---- SLIDE 9: CONCLUSION ---- */
+.s9l { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; height: 100%; align-items: center; }
+.ol { display: flex; flex-direction: column; gap: clamp(10px,1.3vw,16px); }
+.oi { display: flex; align-items: center; gap: clamp(12px,1.5vw,18px); padding: clamp(14px,1.6vw,20px); transition: all 0.3s; }
+.oi:hover { background: rgba(255,255,255,0.06); transform: translateX(6px); }
+.ock { width: clamp(28px,3vw,36px); height: clamp(28px,3vw,36px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: clamp(14px,1.5vw,18px); flex-shrink: 0; background: var(--accent-soft); color: var(--accent); }
+.otxt { font-size: clamp(14px,1.4vw,17px); color: var(--cream); }
+
+/* ---- SLIDE 10: THANK YOU ---- */
+.s10c { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; }
+.tyt { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(56px,8vw,110px); line-height: 1; }
+.tyt span { display: block; background: linear-gradient(135deg, var(--cream) 0%, var(--accent-glow) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.tys { font-size: clamp(14px,1.6vw,20px); color: var(--accent); letter-spacing: 6px; text-transform: uppercase; margin-top: 2vh; }
+.tyc { font-size: clamp(11px,1vw,13px); color: var(--text-muted); margin-top: 4vh; letter-spacing: 2px; }
+
+/* NAV */
+.nav {
+  position: fixed; bottom: 2.5vh; left: 50%; transform: translateX(-50%); z-index: 1000;
+  display: flex; align-items: center; gap: 12px; padding: 10px 24px;
+  background: rgba(10,10,16,0.8); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 40px; backdrop-filter: blur(20px);
+}
+.nd { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); cursor: pointer; transition: all 0.3s; }
+.nd.active { background: var(--accent); box-shadow: 0 0 10px rgba(232,101,43,0.5); width: 24px; border-radius: 4px; }
+.nb {
+  width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
+  background: transparent; color: var(--text-dim); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.3s;
+}
+.nb:hover { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+.sc { font-family: 'Bebas Neue', sans-serif; font-size: 14px; color: var(--text-muted); letter-spacing: 2px; min-width: 50px; text-align: center; }
+
+@media (max-width: 900px) {
+  .s1-grid,.s3-grid,.hl,.s8l,.s9l { grid-template-columns: 1fr; }
+  .s4-cards { grid-template-columns: repeat(2,1fr); }
+  .s2-grid { grid-template-columns: repeat(2,1fr); }
+  .s1-right { display: none; }
+}
+</style>
 </head>
-<body class="antialiased selection:bg-[#FF6B00] selection:text-white">
+<body>
+<div class="deck" id="deck">
 
-    <section class="relative h-screen flex flex-col justify-center items-center overflow-hidden pt-20" id="hero">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2500&auto=format&fit=crop" alt="Aviation Background" class="w-full h-full object-cover opacity-30" id="hero-img" />
-            <div class="img-overlay"></div>
+<!-- SLIDE 1: TITLE -->
+<div class="slide active" data-slide="0">
+  <div class="slide-bg bg-g1"></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:400px;height:400px;top:-100px;right:-50px"></div>
+  <div class="orb orb-b" style="width:300px;height:300px;bottom:0;left:30%"></div>
+  <div class="deco-ring" style="width:500px;height:500px;top:10%;right:-10%"></div>
+  <div class="slide-content">
+    <div class="s1-grid">
+      <div>
+        <div class="stag au d1">AERO PRESENTATION</div>
+        <h1 class="au d2" style="margin-top:1vh">Six<br>Thinking<br>Hats</h1>
+        <div class="aline au d3"></div>
+        <p class="btxt au d4" style="margin-top:1vh">A Copywriter's Framework for Creative Thinking — from brief to brilliance.</p>
+        <p class="au d5" style="font-size:clamp(12px,1.2vw,15px);color:var(--text-muted);margin-top:2vh;font-style:italic">By Hope Warrie</p>
+      </div>
+      <div class="s1-right">
+        <div class="hero-stack">
+          <div class="hi1"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=500&fit=crop" alt=""><div class="hi-over" style="background:linear-gradient(180deg,transparent 50%,rgba(5,5,8,0.7))"></div></div>
+          <div class="hi2"><img src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?w=400&h=350&fit=crop" alt=""><div class="hi-over" style="background:linear-gradient(180deg,transparent 40%,rgba(5,5,8,0.6))"></div></div>
+          <div class="hero-badge glass-card" style="padding:12px 22px"><span style="font-size:clamp(18px,2vw,26px)">🎩</span><span style="font-size:clamp(11px,1vw,13px);color:var(--accent);font-weight:600;letter-spacing:2px;margin-left:8px">6 HATS</span></div>
         </div>
-        
-        <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
-            <p class="reveal-text text-accent uppercase tracking-[0.3em] text-sm font-semibold mb-6">Aero Presentation [cite: 33]</p>
-            <h1 class="reveal-text font-syne text-6xl md:text-8xl lg:text-[10rem] font-bold leading-none tracking-tighter mb-4">
-                SIX<br>THINKING<br>HATS [cite: 1]
-            </h1>
-            <p class="reveal-text text-zinc-400 text-lg md:text-xl tracking-widest mt-8">BY HOPE WARRIE [cite: 1]</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: CONTENTS -->
+<div class="slide" data-slide="1">
+  <div class="slide-bg bg-g2"></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:350px;height:350px;bottom:-80px;right:10%"></div>
+  <div class="slide-content">
+    <div class="stag au d1">OVERVIEW</div>
+    <h2 class="au d2">What We'll Cover</h2>
+    <div class="aline au d2"></div>
+    <div class="s2-grid" style="margin-top:3vh">
+      <div class="ci glass-card au d2"><div class="cn">01</div><div class="ct">Introduction</div><div class="cd">Our mission, approach, and the philosophy that drives our team</div></div>
+      <div class="ci glass-card au d3"><div class="cn">02</div><div class="ct">Thought Process</div><div class="cd">How we receive briefs and turn them into purposeful strategy</div></div>
+      <div class="ci glass-card au d3"><div class="cn">03</div><div class="ct">Six Thinking Hats</div><div class="cd">The creative framework powering every decision we make</div></div>
+      <div class="ci glass-card au d4"><div class="cn">04</div><div class="ct">Results</div><div class="cd">From thinking to execution — real work, real impact</div></div>
+      <div class="ci glass-card au d5" style="grid-column:2/4"><div class="cn">05</div><div class="ct">Conclusion</div><div class="cd">What this process achieves — clarity, connection, and measurable engagement</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: INTRODUCTION -->
+<div class="slide" data-slide="2">
+  <div class="slide-bg bg-g1"></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:300px;height:300px;top:10%;left:-5%"></div>
+  <div class="orb orb-b" style="width:250px;height:250px;bottom:10%;right:5%"></div>
+  <div class="slide-content">
+    <div class="s3-grid">
+      <div>
+        <div class="snum au d1">01</div>
+        <h2 class="au d2">Introduction</h2>
+        <div class="aline au d2"></div>
+        <p class="btxt au d3" style="margin-top:2vh">As a team, we approach every project with one aim: to <strong style="color:var(--accent)">transform our client's vision</strong> into meaningful, results-focused content.</p>
+        <p class="btxt au d4" style="margin-top:1.5vh">We blend strategy, creativity, and organized thinking to ensure that every idea we produce is clear, relevant, and impactful.</p>
+        <p class="au d5" style="font-size:clamp(12px,1.1vw,14px);color:var(--text-muted);margin-top:2vh;font-style:italic">This presentation walks through our process from a copywriter's perspective.</p>
+      </div>
+      <div class="pstack">
+        <div class="pi glass-card au d2"><div class="picon" style="background:var(--accent-soft)">🔍</div><div><div class="plbl">Strategy</div><div class="psub">Research-driven decisions</div></div></div>
+        <div class="pi glass-card au d3"><div class="picon" style="background:rgba(46,189,110,0.1)">🎨</div><div><div class="plbl">Creativity</div><div class="psub">Bold, original thinking</div></div></div>
+        <div class="pi glass-card au d4"><div class="picon" style="background:rgba(59,125,216,0.1)">🎯</div><div><div class="plbl">Clarity</div><div class="psub">Precision in every word</div></div></div>
+        <div class="pi glass-card au d5"><div class="picon" style="background:rgba(240,192,48,0.1)">🚀</div><div><div class="plbl">Impact</div><div class="psub">Measurable results</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: THOUGHT PROCESS -->
+<div class="slide" data-slide="3">
+  <div class="slide-bg bg-g3"></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:400px;height:400px;top:-100px;left:30%"></div>
+  <div class="slide-content">
+    <div class="snum au d1">02</div>
+    <h2 class="au d2">Our Thought Process</h2>
+    <div class="aline au d2"></div>
+    <p class="btxt au d3" style="margin-bottom:3vh"><strong style="color:var(--cream)">When a brief comes in, we don't rush to create.</strong> What we write must reflect both the client's vision and the audience's reality.</p>
+    <div class="s4-cards">
+      <div class="pc glass-card au d3"><div class="pcn">01</div><div class="pci">🔍</div><div class="pct">Understand</div><div class="pcd">What the client truly wants — their goals, values, and expectations</div></div>
+      <div class="pc glass-card au d4"><div class="pcn">02</div><div class="pci">👥</div><div class="pct">Study</div><div class="pcd">The audience we're speaking to — their desires, pain points, and language</div></div>
+      <div class="pc glass-card au d5"><div class="pcn">03</div><div class="pci">🎯</div><div class="pct">Identify</div><div class="pcd">How best to connect with them — the bridge between brand and audience</div></div>
+      <div class="pc glass-card au d6"><div class="pcn">04</div><div class="pci">✨</div><div class="pct">Refine</div><div class="pcd">Share ideas, challenge each other, and align on the strongest direction</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: FACTS + PROCESS HAT -->
+<div class="slide" data-slide="4">
+  <div class="slide-bg bg-g2"></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:300px;height:300px;bottom:-50px;left:20%"></div>
+  <div class="slide-content">
+    <div class="stag au d1">THE FRAMEWORK</div>
+    <h2 class="au d2" style="font-size:clamp(24px,3vw,40px)">The Six Thinking Hats</h2>
+    <div class="aline au d2"></div>
+    <div class="hl" style="margin-top:2vh">
+      <div class="hw"><div class="hc glass-card au d3"><div class="hh"><div class="hb">🤍</div><div class="htg"><h3>The Facts Hat</h3><div class="hst">Clarity first</div></div></div><div class="hbd"><strong>We start with clarity.</strong><br><br><span class="q">What is the client asking for?</span><span class="q">Who is the audience?</span><span class="q">What is the goal?</span><br>We gather all the necessary information: content pillars, structured calendars, and consistent posting strategies.</div></div></div>
+      <div class="hbl"><div class="hc glass-card au d4"><div class="hh"><div class="hb">💙</div><div class="htg"><h3>The Process Hat</h3><div class="hst">Defining the direction</div></div></div><div class="hbd"><strong>This is where we define the goal.</strong><br><br>We bring everything together and ensure the final direction is clear and aligned.<span class="q">Is it to sell? Inform? Or build the brand?</span><span class="q">Does this idea meet the objective?</span><span class="q">Does it align with the brand?</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: EMOTIONS + VALUE HAT -->
+<div class="slide" data-slide="5">
+  <div class="slide-bg bg-g1"></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:350px;height:350px;top:-80px;right:-50px"></div>
+  <div class="slide-content">
+    <div class="stag au d1">THE FRAMEWORK</div>
+    <h2 class="au d2" style="font-size:clamp(24px,3vw,40px)">The Six Thinking Hats</h2>
+    <div class="aline au d2"></div>
+    <div class="hl" style="margin-top:2vh">
+      <div class="hr"><div class="hc glass-card au d3"><div class="hh"><div class="hb">❤️</div><div class="htg"><h3>The Emotions Hat</h3><div class="hst">Tone and connection</div></div></div><div class="hbd"><strong>We define how the content should feel.</strong><br><br>Human, relatable, and easy to connect with.<span class="q">Should this feel warm, reflective, exciting, or reassuring?</span><br>This shapes our tone and voice — the emotional architecture of every piece.</div></div></div>
+      <div class="hy"><div class="hc glass-card au d4"><div class="hh"><div class="hb">💛</div><div class="htg"><h3>The Value Hat</h3><div class="hst">Meaning and purpose</div></div></div><div class="hbd"><strong>This hat ensures the message has meaning.</strong><br><br><span class="q">Why should the audience care?</span><span class="q">What are they gaining from this?</span><br>Every piece of content must deliver value to earn the audience's attention and trust.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: CREATIVE + CRITIQUE HAT -->
+<div class="slide" data-slide="6">
+  <div class="slide-bg bg-g3"></div><div class="noise"></div>
+  <div class="orb orb-g" style="width:300px;height:300px;top:20%;left:-5%"></div>
+  <div class="slide-content">
+    <div class="stag au d1">THE FRAMEWORK</div>
+    <h2 class="au d2" style="font-size:clamp(24px,3vw,40px)">The Six Thinking Hats</h2>
+    <div class="aline au d2"></div>
+    <div class="hl" style="margin-top:2vh">
+      <div class="hgr"><div class="hc glass-card au d3"><div class="hh"><div class="hb">💚</div><div class="htg"><h3>The Creative Hat</h3><div class="hst">Innovation and storytelling</div></div></div><div class="hbd"><strong>We explore different directions.</strong><br><br>Moving away from generic content to storytelling through airline roles.<span class="q">How can we say this in a way that stands out?</span><br>This is where ideas like storytelling and unique formats come in — the spark that makes content unforgettable.</div></div></div>
+      <div class="hbk"><div class="hc glass-card au d4"><div class="hh"><div class="hb">🖤</div><div class="htg"><h3>The Critique Hat</h3><div class="hst">Quality and alignment</div></div></div><div class="hbd"><strong>We step back and critique the idea.</strong><br><br><span class="q">Is it clear?</span><span class="q">Is it relevant?</span><span class="q">Can it be misunderstood?</span><br>This is where we review and filter ideas, removing what doesn't align or connect with the brand's truth.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: RESULTS -->
+<div class="slide" data-slide="7">
+  <div class="slide-bg"><div class="bg-img" style="background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1400&h=800&fit=crop')"></div><div class="bg-img-overlay"></div></div><div class="noise"></div>
+  <div class="slide-content">
+    <div class="snum au d1">04</div>
+    <h2 class="au d2">Thinking to Execution</h2>
+    <div class="aline au d2"></div>
+    <p class="btxt au d3" style="margin-bottom:3vh">How this thinking reflects in our work for Aero.</p>
+    <div class="s8l">
+      <div class="rc glass-card au d4"><div class="ri">✍️</div><div class="rtag">Storytelling Approach</div><div class="rtxt">Moved away from generic quotes and rethought the approach entirely.</div><ul class="rl"><li>Used airline roles as storytelling devices</li><li>Wrote in first-person for relatability</li><li>Made content more human and connectable</li></ul></div>
+      <div class="rc glass-card au d5"><div class="ri">✈️</div><div class="rtag">Destination Content</div><div class="rtxt">Changed how destinations were presented to spark genuine travel desire.</div><ul class="rl"><li>Focused on destinations, not just cities</li><li>Highlighted experiences over locations</li><li>Wrote to make audiences want to go there</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: CONCLUSION -->
+<div class="slide" data-slide="8">
+  <div class="slide-bg bg-g1"></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:500px;height:500px;bottom:-200px;right:-100px"></div>
+  <div class="slide-content">
+    <div class="s9l">
+      <div>
+        <div class="snum au d1">05</div>
+        <h2 class="au d2">Conclusion</h2>
+        <div class="aline au d2"></div>
+        <p class="btxt au d3" style="margin-top:2vh">By working this way, we achieve results that matter — for the client, the audience, and the brand.</p>
+        <div class="ol" style="margin-top:3vh">
+          <div class="oi glass-card au d3"><div class="ock">✓</div><div class="otxt">Clear and relatable messaging</div></div>
+          <div class="oi glass-card au d4"><div class="ock">✓</div><div class="otxt">More intentional content</div></div>
+          <div class="oi glass-card au d4"><div class="ock">✓</div><div class="otxt">Better engagement overall</div></div>
+          <div class="oi glass-card au d5"><div class="ock">✓</div><div class="otxt">Stronger audience connection</div></div>
         </div>
-        
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 reveal-text flex flex-col items-center">
-            <span class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Scroll to explore</span>
-            <div class="w-[1px] h-12 bg-zinc-700 overflow-hidden relative">
-                <div class="w-full h-full bg-accent absolute top-0 left-0 animate-[scrolldown_1.5s_ease-in-out_infinite]"></div>
-            </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center">
+        <div class="glass-card glow-accent au d4" style="padding:clamp(28px,3.5vw,48px)">
+          <h3 style="color:var(--accent);font-size:clamp(12px,1.3vw,15px);margin-bottom:2vh">TOGETHER WE ENSURE</h3>
+          <div style="display:flex;flex-direction:column;gap:clamp(16px,2vw,24px)">
+            <div style="display:flex;align-items:flex-start;gap:14px"><span style="color:var(--accent);font-size:20px;flex-shrink:0">◆</span><div><div style="color:var(--cream);font-size:clamp(14px,1.4vw,17px);font-weight:600">The client's vision is respected</div><div style="color:var(--text-muted);font-size:clamp(11px,1vw,13px);margin-top:4px">Every word serves their goals</div></div></div>
+            <div style="height:1px;background:var(--glass-border)"></div>
+            <div style="display:flex;align-items:flex-start;gap:14px"><span style="color:var(--accent);font-size:20px;flex-shrink:0">◆</span><div><div style="color:var(--cream);font-size:clamp(14px,1.4vw,17px);font-weight:600">The audience is understood</div><div style="color:var(--text-muted);font-size:clamp(11px,1vw,13px);margin-top:4px">We speak their language</div></div></div>
+            <div style="height:1px;background:var(--glass-border)"></div>
+            <div style="display:flex;align-items:flex-start;gap:14px"><span style="color:var(--accent);font-size:20px;flex-shrink:0">◆</span><div><div style="color:var(--cream);font-size:clamp(14px,1.4vw,17px);font-weight:600">The message is clear and effective</div><div style="color:var(--text-muted);font-size:clamp(11px,1vw,13px);margin-top:4px">No noise, only signal</div></div></div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <section class="py-32 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto relative z-20" id="intro">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-                <h2 class="reveal-text font-syne text-4xl md:text-5xl font-bold mb-8">THE AERO<br><span class="text-accent">APPROACH.</span></h2>
-                <div class="reveal-line mb-8"></div>
-                <p class="reveal-text text-xl md:text-2xl text-zinc-300 leading-relaxed mb-6">
-                    We blend strategy, creativity, and organized thinking to ensure that every idea we produce is clear, relevant, and impactful. [cite: 4]
-                </p>
-                <p class="reveal-text text-zinc-400 text-lg leading-relaxed">
-                    When a brief comes in, we don't rush to create. [cite: 6] We share ideas, challenge each other, refine, and align. [cite: 7]
-                </p>
-            </div>
-            <div class="relative h-[600px] w-full overflow-hidden rounded-sm reveal-element">
-                <img src="https://images.unsplash.com/photo-1540866225557-9e4c58100c67?q=80&w=1000&auto=format&fit=crop" alt="Abstract Strategy" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 parallax-img">
-            </div>
-        </div>
-    </section>
+<!-- SLIDE 10: THANK YOU -->
+<div class="slide" data-slide="9">
+  <div class="slide-bg"><div class="bg-img" style="background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&h=800&fit=crop');filter:brightness(0.3) saturate(1.4)"></div><div class="bg-img-overlay" style="background:radial-gradient(ellipse at center,rgba(5,5,8,0.6) 0%,rgba(5,5,8,0.9) 70%)"></div></div><div class="noise"></div>
+  <div class="orb orb-a" style="width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.5"></div>
+  <div class="deco-ring" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);border-color:rgba(232,101,43,0.08)"></div>
+  <div class="deco-ring" style="width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);border-color:rgba(232,101,43,0.05)"></div>
+  <div class="slide-content">
+    <div class="s10c">
+      <div class="stag au d1" style="margin-bottom:3vh">AERO PRESENTATION</div>
+      <div class="tyt au d2"><span>Thank You</span></div>
+      <div class="tys au d3">For Your Time</div>
+      <div class="aline au d4" style="width:80px;margin:3vh auto"></div>
+      <div class="tyc au d5">BY HOPE WARRIE &nbsp;·&nbsp; SIX THINKING HATS</div>
+      <div class="au d6" style="margin-top:3vh"><div class="glass-card" style="display:inline-flex;padding:10px 24px;gap:16px;font-size:clamp(16px,2vw,22px)"><span>🤍</span><span>💙</span><span>❤️</span><span>💛</span><span>💚</span><span>🖤</span></div></div>
+    </div>
+  </div>
+</div>
 
-    <section class="py-32 bg-[#0a0a0a] relative z-20 border-t border-zinc-900" id="hats">
-        <div class="px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
-            <h2 class="reveal-text font-syne text-5xl font-bold mb-20 text-center">THE METHODOLOGY</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-white transition-colors duration-500 reveal-element">
-                    <div class="text-white text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">01 // THE FACTS HAT</div>
-                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Clarity & Alignment</h3>
-                    <p class="text-zinc-400 mb-4">We start with clarity. [cite: 10] What is the client asking for? [cite: 10] Who is the audience? [cite: 10]</p>
-                    <p class="text-zinc-500 text-sm italic">This keeps us grounded and aligned from the start. [cite: 12]</p>
-                </div>
+</div>
 
-                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-blue-500 transition-colors duration-500 reveal-element">
-                    <div class="text-blue-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">02 // THE PROCESS HAT</div>
-                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Defining the Goal</h3>
-                    <p class="text-zinc-400 mb-4">This is where we define the goal, by bringing everything together and ensuring the final direction was clear... [cite: 12]</p>
-                    <p class="text-zinc-500 text-sm italic">Is it to sell? inform? or build the brand? [cite: 13]</p>
-                </div>
+<!-- NAVIGATION -->
+<div class="nav">
+  <button class="nb" onclick="go(-1)">←</button>
+  <div id="dots" style="display:flex;gap:6px"></div>
+  <span class="sc" id="counter">01 / 10</span>
+  <button class="nb" onclick="go(1)">→</button>
+</div>
 
-                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-red-500 transition-colors duration-500 reveal-element">
-                    <div class="text-red-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">03 // THE EMOTIONS HAT</div>
-                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Human Connection</h3>
-                    <p class="text-zinc-400 mb-4">We define how the content should feel, human, relatable, and easy to connect with. [cite: 15]</p>
-                    <p class="text-zinc-500 text-sm italic">Should this feel warm, reflective, exciting, or reassuring? [cite: 16]</p>
-                </div>
+<div style="position:fixed;top:2vh;right:3vw;z-index:1000;font-size:11px;color:var(--text-muted);letter-spacing:1px;opacity:0.4">← → or CLICK to navigate</div>
 
-                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-yellow-500 transition-colors duration-500 reveal-element">
-                    <div class="text-yellow-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">04 // THE VALUE HAT</div>
-                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Audience Meaning</h3>
-                    <p class="text-zinc-400 mb-4">Wearing this hat helps us make sure the message has meaning. [cite: 17] Why should the audience care? [cite: 18]</p>
-                    <p class="text-zinc-500 text-sm italic">What are they gaining from this? [cite: 18]</p>
-                </div>
+<script>
+let cur = 0;
+const total = 10;
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
 
-                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-zinc-500 transition-colors duration-500 reveal-element">
-                    <div class="text-zinc-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">05 // THE CRITIQUE HAT</div>
-                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Review & Filter</h3>
-                    <p class="text-zinc-400 mb-4">We step back and critique the idea. [cite: 19] Is it clear? Is it relevant? [cite: 19] Can it be misunderstood? [cite: 20]</p>
-                    <p class="text-zinc-500 text-sm italic">Removing what doesn't align or connect. [cite: 20]</p>
-                </div>
+// Create dots
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'nd' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
 
-                <div class="hat-card bg-[#0f0f0f] p-10 border border-zinc-800 hover:border-green-500 transition-colors duration-500 reveal-element">
-                    <div class="text-green-500 text-sm font-bold tracking-widest mb-6 border-b border-zinc-800 pb-4">06 // THE CREATIVE HAT</div>
-                    <h3 class="font-syne text-2xl mb-4 text-zinc-100">Storytelling</h3>
-                    <p class="text-zinc-400 mb-4">We explore different directions, moving away from generic content to storytelling through airline roles. [cite: 20]</p>
-                    <p class="text-zinc-500 text-sm italic">How can we say this in a way that stands out? [cite: 21]</p>
-                </div>
-            </div>
-        </div>
-    </section>
+function goTo(n) {
+  if (n < 0 || n >= total || n === cur) return;
+  // Reset animations on current slide
+  slides[cur].querySelectorAll('.au').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight; // reflow
+    el.style.animation = '';
+    el.classList.remove('au'); // temp remove
+    void el.offsetHeight;
+    el.classList.add('au');
+  });
+  slides[cur].classList.remove('active');
+  cur = n;
+  slides[cur].classList.add('active');
+  // Reset animations on new slide
+  slides[cur].querySelectorAll('.au').forEach(el => {
+    el.style.animation = 'none';
+    void el.offsetHeight;
+    el.style.animation = '';
+  });
+  // Update dots
+  dotsEl.querySelectorAll('.nd').forEach((d, i) => d.classList.toggle('active', i === cur));
+  counterEl.textContent = String(cur + 1).padStart(2, '0') + ' / ' + total;
+}
 
-    <section class="py-32 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto relative z-20" id="execution">
-        <h2 class="reveal-text font-syne text-4xl md:text-6xl font-bold mb-16">THINKING TO <span class="text-accent">EXECUTION</span> [cite: 23]</h2>
-        
-        <div class="space-y-32">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-5 order-2 lg:order-1 reveal-element">
-                    <div class="text-accent text-sm font-bold tracking-widest mb-4">CASE STUDY: ROLES</div>
-                    <h3 class="font-syne text-3xl mb-6">"Hi I am Zara, a Cabin Crew." [cite: 23]</h3>
-                    <p class="text-zinc-400 mb-6 text-lg">We moved away from generic quotes and rethought the approach. [cite: 28] Used airline roles as storytelling. Wrote in first-person for relatability. [cite: 28]</p>
-                    <blockquote class="border-l-2 border-accent pl-6 text-xl font-syne text-zinc-200">
-                        "Mondays are your runway. Buckle up, take off, and go for it!" [cite: 23, 24]
-                    </blockquote>
-                </div>
-                <div class="lg:col-span-7 order-1 lg:order-2 overflow-hidden reveal-element">
-                    <img src="https://images.unsplash.com/photo-1544158485-64bc1dfa8c5a?q=80&w=1200&auto=format&fit=crop" alt="Cabin Crew Insight" class="w-full h-[500px] object-cover filter brightness-75">
-                </div>
-            </div>
+function go(dir) { goTo(cur + dir); }
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-7 overflow-hidden reveal-element">
-                    <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1200&auto=format&fit=crop" alt="Obudu Destination" class="w-full h-[500px] object-cover filter brightness-75">
-                </div>
-                <div class="lg:col-span-5 reveal-element">
-                    <div class="text-accent text-sm font-bold tracking-widest mb-4">CASE STUDY: DESTINATIONS</div>
-                    <h3 class="font-syne text-3xl mb-6">Experiential Desire</h3>
-                    <p class="text-zinc-400 mb-6 text-lg">Focused on destinations, not just cities. Highlighted experiences. Wrote to spark travel desire. [cite: 29]</p>
-                    <blockquote class="border-l-2 border-accent pl-6 text-xl font-syne text-zinc-200">
-                        "Obudu reminds you to slow down and feel alive again. Won't you explore it today?" [cite: 26, 27]
-                    </blockquote>
-                </div>
-            </div>
-        </div>
-    </section>
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+});
 
-    <section class="py-40 bg-accent text-black text-center relative z-20" id="conclusion">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="reveal-text font-syne text-5xl md:text-7xl font-bold mb-10">THE RESULT</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left reveal-element">
-                <div class="border-t-2 border-black pt-6">
-                    <h4 class="font-syne text-2xl font-bold mb-4">We Achieve:</h4>
-                    <ul class="space-y-3 font-medium text-lg">
-                        <li>↗ Clear and relatable messaging [cite: 31]</li>
-                        <li>↗ More intentional content [cite: 31]</li>
-                        <li>↗ Better engagement overall [cite: 31]</li>
-                        <li>↗ Stronger audience connection [cite: 31]</li>
-                    </ul>
-                </div>
-                <div class="border-t-2 border-black pt-6">
-                    <h4 class="font-syne text-2xl font-bold mb-4">We Ensure:</h4>
-                    <ul class="space-y-3 font-medium text-lg">
-                        <li>↗ The client's vision is respected [cite: 31]</li>
-                        <li>↗ The audience is understood [cite: 32]</li>
-                        <li>↗ The message is clear and effective [cite: 32]</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-10 text-center text-zinc-600 text-sm border-t border-zinc-900 bg-black">
-        <p>Aero Presentation. Thank you for your time. [cite: 33]</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <script>
-        // 1. Initialize Smooth Scrolling (Lenis)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-            direction: 'vertical', 
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        })
-
-        function raf(time) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
-        }
-        requestAnimationFrame(raf)
-
-        // 2. Initialize GSAP ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Update ScrollTrigger on Lenis scroll
-        lenis.on('scroll', ScrollTrigger.update)
-        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) })
-        gsap.ticker.lagSmoothing(0, 0)
-
-        // 3. Animations
-        
-        // Hero Parallax
-        gsap.to("#hero-img", {
-            yPercent: 30,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            } 
-        });
-
-        // Text Reveals
-        const textElements = gsap.utils.toArray('.reveal-text');
-        textElements.forEach(text => {
-            gsap.to(text, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: text,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-        });
-
-        // Line Draws
-        const lines = gsap.utils.toArray('.reveal-line');
-        lines.forEach(line => {
-            gsap.to(line, {
-                width: "100%",
-                duration: 1.5,
-                ease: "power4.inOut",
-                scrollTrigger: {
-                    trigger: line,
-                    start: "top 85%",
-                }
-            });
-        });
-
-        // Elements / Images Reveals
-        const elements = gsap.utils.toArray('.reveal-element');
-        elements.forEach(el => {
-            gsap.to(el, {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 85%",
-                }
-            });
-        });
-
-        // Subtle Image Parallax inside containers
-        const parallaxImgs = gsap.utils.toArray('.parallax-img');
-        parallaxImgs.forEach(img => {
-            gsap.to(img, {
-                yPercent: 15,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: img.parentElement,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-        });
-    </script>
+// Touch/swipe
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+});
+</script>
 </body>
 </html>
